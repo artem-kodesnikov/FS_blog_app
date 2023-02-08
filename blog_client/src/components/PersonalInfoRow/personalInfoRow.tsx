@@ -11,10 +11,10 @@ export const PersonalInfoRow: FC<Props> = ({title, value}) => {
     <div className={style.info_row}>
       <div className={style.info_values}>
           <p className={style.info_title}>
-            {title}
+            {title || 'Info not found'}
           </p>
           <p className={style.info_value}>
-            {value}
+            {value || 'Info not found'}
           </p>
       </div>
       <label className={style.info_update} htmlFor="update">

@@ -75,7 +75,7 @@ export const NavBar = () => {
           >
             <ul>
               <DropDownItem title={'My Profile'} icon={'./icon/dropuser.png'}/>
-              <DropDownLogout action={handleLogout} title={'Logout'} icon={'./icon/exit.png'}/>
+              <DropDownLogout handleLogout={handleLogout} title={'Logout'} icon={'./icon/exit.png'}/>
             </ul>
           </div>
         </div >

@@ -8,11 +8,13 @@ interface Props{
   action?: () => void
 };
 
-export const DropDownItem: FC<Props> = ({title, icon, action}) => {
+export const DropDownItem: FC<Props> = ({title, icon}) => {
   return (
-    <li onClick={action} className={style.dropdown_item}>
+    <li>
+      <Link className={style.dropdown_item} to="/personalInfo">
         <img src={icon} alt='icon' />
-        <Link to="/personalInfo">{title}</Link>
+        {title}
+      </Link>
     </li>
   );
 };

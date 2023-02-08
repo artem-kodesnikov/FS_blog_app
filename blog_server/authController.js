@@ -14,7 +14,7 @@ class authController {
   async registration(req, res) {
     try {
       const { username, displayname, password } = req.body
-      const candidate = await User.findOne({username})
+      const candidate = awaitUser.findOne({username})
       if (candidate) {
         return res.status(400).json({message: 'User already registered'})
       }
@@ -23,7 +23,6 @@ class authController {
       await user.save()
       return res.status(201).json({message: 'User created'})
     } catch (e) {
-      console.log(e)
       res.status(400).json({message: 'Registration error'})
     }
   }
@@ -32,7 +31,7 @@ class authController {
       const { username, password } = req.body;
       const user = await User.findOne({ username })
       if (!user) {
-        return res.status(400).json({message: `User ${user} not found`})
+        return res.status(400).json({message: `User ${username} not found`})
       }
       const isValidPassword = bcrypt.compareSync(password, user.password)
       if (!isValidPassword) {
@@ -41,9 +40,8 @@ class authController {
       req.session.authenticated = true;
       req.session.user = { username, password }
       const token = generateAccesToken(user._id)
-      return res.status(201).json(token)
+      return res.status(201).json({token, user})
     } catch (e) {
-      console.log(e)
       res.status(400).json({message: 'Login error'})
     }
   }
@@ -59,7 +57,6 @@ class authController {
         });
       }
     } catch (e) {
-      console.log(e)
       res.status(400).json({message: 'Logout error'})
     }
   }

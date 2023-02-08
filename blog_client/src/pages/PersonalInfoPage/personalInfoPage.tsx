@@ -8,6 +8,8 @@ import style from './personalInfoPage.module.scss';
 
 export const PersonalInfoPage = () => {
   const isLoading = useAppSelector(state => state.loader.isLoading);
+  const userInfo = useAppSelector(state => state.userInfo.user);
+  const {username, displayname} = userInfo;
   return (
     <>
       <NavBar />
@@ -16,8 +18,8 @@ export const PersonalInfoPage = () => {
           <h3 className={style.title}>
             Main information
           </h3>
-          <PersonalInfoRow title={'UserName'} value={'UserName'} />
-          <PersonalInfoRow title={'DisplayName'} value={'DisplayName'} />
+          <PersonalInfoRow title={'UserName'} value={username} />
+          <PersonalInfoRow title={'DisplayName'} value={displayname} />
         </div>
       </div>
       {isLoading && <Loader/>}

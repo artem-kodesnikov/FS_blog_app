@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const BASE_URL = 'https://basic-fullstack-auth-server.onrender.com';
+// const BASE_URL = 'http://localhost:5000';
 
 export const RegisterUser = async (username, displayname, password) => {
   const request = {

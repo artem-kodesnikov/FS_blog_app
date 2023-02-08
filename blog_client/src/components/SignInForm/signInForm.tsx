@@ -11,6 +11,7 @@ import view from '../../image/icon/view.png';
 import hide from '../../image/icon/hide.png';
 import { changeStateLoader } from '../../features/loader/loaderSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { getUserInfo } from '../../features/userInfo/userInfoSlice';
 
 export const SingInForm = () => {
   const [isVisiblePass, setIsVisiblePass] = useState<boolean>(false);
@@ -31,6 +32,12 @@ export const SingInForm = () => {
     dispatch(changeStateLoader(true));
     try {
       const login = await Login(username, password);
+      const userInfo = {
+        username: login.data.user.username,
+        displayname:login.data.user.displayname,
+      };
+      dispatch(getUserInfo(userInfo));
+
       if (login.status === 201) {
         toast.success('Login successful!');
         navigate('/', { replace: true });

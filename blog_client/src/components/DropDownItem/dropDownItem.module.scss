@@ -5,14 +5,11 @@
   padding: 5px;
   cursor: pointer;
   border-radius: 15px;
+  text-decoration: none;
+  color: #000;
   &:hover {
     background-color: rgba(157, 157, 157, 0.2);
     transition: all 0.3s ease-out;
-  }
-
-  a {
-    text-decoration: none;
-    color: #000;
   }
 
   img {

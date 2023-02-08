@@ -4,12 +4,12 @@ import style from './dropDownLogout.module.scss';
 interface Props{
   title: string;
   icon: string;
-  action?: () => void
+  handleLogout: () => void
 };
 
-export const DropDownLogout: FC<Props> = ({title, icon, action}) => {
+export const DropDownLogout: FC<Props> = ({title, icon, handleLogout}) => {
   return (
-    <li onClick={action} className={style.dropdown_item}>
+    <li onClick={handleLogout} className={style.dropdown_item}>
         <img src={icon} alt='icon' />
         <p>{title}</p>
     </li>
