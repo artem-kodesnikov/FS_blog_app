@@ -33,6 +33,7 @@ export const SingInForm = () => {
     try {
       const login = await Login(username, password);
       const userInfo = {
+        id: login.data.user._id,
         username: login.data.user.username,
         displayname:login.data.user.displayname,
       };

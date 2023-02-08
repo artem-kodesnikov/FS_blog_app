@@ -28,7 +28,6 @@ export const SignUpForm = () => {
 
   const handleSignUp = async (data: FormType) => {
     const { username, displayname, password } = data;
-    console.log(data);
     try {
       dispatch(changeStateLoader(true));
       const newUser = await RegisterUser(username, displayname, password);
@@ -117,10 +116,9 @@ export const SignUpForm = () => {
           alt=""
           className={style.input__icon}
           onClick={handleVisiblePass}
-
         />
-
       </div>
+
       <FormFieldError error={errors?.password?.message} />
       <label htmlFor='confInput'>
         <p className={style.input_title}>Confirm Password</p>
@@ -144,15 +142,14 @@ export const SignUpForm = () => {
             }
           })}
         />
-
         <img
           src={isVisibleConfirmPass ? view : hide}
           alt=""
           className={style.input__icon}
           onClick={handleVisibleConfirmPass}
         />
-
       </div>
+
       <FormFieldError error={errors?.confirmPassword?.message} />
       <button className={style.form__btn}>Sign Up</button>
       {isLoading && <Loader />}

@@ -10,6 +10,8 @@ export const PersonalInfoPage = () => {
   const isLoading = useAppSelector(state => state.loader.isLoading);
   const userInfo = useAppSelector(state => state.userInfo.user);
   const {username, displayname} = userInfo;
+
+
   return (
     <>
       <NavBar />
