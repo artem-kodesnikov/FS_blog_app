@@ -1,9 +1,8 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { changeUsername, handleUserUpdate } from '../../features/userInfo/userInfoSlice';
 import style from './personalInfoRow.module.scss';
 import { useForm } from "react-hook-form";
-
 
 interface Props {
   title: string;
@@ -18,7 +17,17 @@ export const PersonalInfoRow: FC<Props> = ({ title, value }) => {
   const dispatch = useAppDispatch();
   const isUpdating = useAppSelector(state => state.userInfo.isUpdating);
   const updateRow = useAppSelector(state => state.userInfo.updateRow);
-  const { register, handleSubmit, setFocus } = useForm<Input>();
+  const updatingInput = useRef<HTMLInputElement>(null);
+  const {
+    register,
+    handleSubmit,
+    setFocus,
+  } = useForm<Input>({
+    mode: "onChange",
+    defaultValues: {
+      input: value
+    }
+  });
 
   const handleUpdateInput = () => {
     dispatch(handleUserUpdate([!isUpdating, title]));
@@ -39,6 +48,20 @@ export const PersonalInfoRow: FC<Props> = ({ title, value }) => {
   useEffect(() => {
     setFocus('input');
   }, [isUpdating]);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      if (!updatingInput.current?.contains(e.target)) {
+        dispatch(handleUserUpdate(false));
+      }
+    };
+
+    document.addEventListener('mousedown', handler);
+
+    return () => {
+      document.removeEventListener('mousedown', handler);
+    };
+  });
 
   return (
     <div className={style.info_row}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RegisterUser } from '../../api/requests';
 import { FormType } from '../../types/form';
@@ -14,17 +14,26 @@ import { changeStateLoader } from '../../features/loader/loaderSlice';
 export const SignUpForm = () => {
   const {
     register,
+    reset,
+    formState,
     formState: {
       errors,
+      isSubmitSuccessful
     },
     handleSubmit,
     watch,
-  } = useForm<FormType>();
+  } = useForm<FormType>({ defaultValues: { username: '', displayname: '', password: '', confirmPassword: ''}});
 
   const [isVisiblePass, setIsVisiblePass] = useState(false);
   const [isVisibleConfirmPass, setIsVisibleConfirmPass] = useState(false);
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.loader.isLoading);
+
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset({ username: '', displayname: '', password: '', confirmPassword: ''});
+    }
+  }, [formState,reset, isSubmitSuccessful]);
 
   const handleSignUp = async (data: FormType) => {
     const { username, displayname, password } = data;
@@ -35,6 +44,7 @@ export const SignUpForm = () => {
         toast.success('User created!');
         return newUser;
       }
+      reset({...data});
     }
     catch (error) {
       toast.error(error.response.data.message);
