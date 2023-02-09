@@ -27,7 +27,6 @@ export const userInfoSlice = createSlice({
       state.user = action.payload;
     },
     handleUserUpdate: (state: User, action) => {
-      // state.isUpdating = action.payload[0];
       state.updateRow = action.payload[1];
     },
     changeUserData: (state: User, action) => {

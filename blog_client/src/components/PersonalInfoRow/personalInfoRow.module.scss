@@ -5,6 +5,7 @@
   padding-bottom: 10px;
   margin-bottom: 10px;
   border-bottom: 1px solid rgba(46, 46, 46, 0.2);
+  height: 30px;
 }
 
 .info_values {
@@ -21,16 +22,6 @@
   font-size: 16px;
 }
 
-.info_update {
-  cursor: pointer;
-  display: flex;
-  align-items: flex-end;
-
-  &:hover {
-    color: #5f962c;
-  }
-}
-
 .info_ico {
   height: 20px;
   width: 20px;
@@ -42,19 +33,18 @@
   border-bottom: 2px solid #5f962c;
   border-radius: 3px;
   outline: none;
+  font-size: 18px;
 }
 
-// .active {
-//   border-radius: 20px;
-//   opacity: 1;
-//   visibility: visible;
-//   transform: translateX(0);
-//   transition: 0.4s ease;
-// }
-
-// .inactive {
-//   opacity: 0;
-//   visibility: hidden;
-//   transform: translateX(-20px);
-//   transition: 0.4s ease;
-// }
+.update_btn {
+  display: flex;
+  align-items: center;
+  border: none;
+  outline: none;
+  background-color: #C0BFBF;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    color: #5f962c;
+  }
+}
