@@ -31,8 +31,8 @@ export const userInfoSlice = createSlice({
       state.isUpdating = action.payload[0];
       state.updateRow = action.payload[1];
     },
-    changeUsername: (state: User, action) => {
-      state.user.username = action.payload;
+    changeUserData: (state: User, action) => {
+      state.user = {...state.user, ...action.payload};
     }
   }
 });
@@ -40,7 +40,7 @@ export const userInfoSlice = createSlice({
 export const {
   getUserInfo,
   handleUserUpdate,
-  changeUsername,
+  changeUserData,
 } = userInfoSlice.actions;
 
 export default userInfoSlice.reducer;
