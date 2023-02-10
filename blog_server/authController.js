@@ -14,6 +14,7 @@ class authController {
   async registration(req, res) {
     try {
       const { username, displayname, password } = req.body
+      console.log(req.params)
       const candidate = await User.findOne({username})
       if (candidate) {
         return res.status(400).json({message: 'User already registered'})

@@ -34,3 +34,23 @@ export const Logout = async () => {
   const response = await axios(request);
   return response;
 };
+
+export const UpdateUserNameById = async(username, id) => {
+  const request = {
+    method: 'put',
+    url: BASE_URL.concat(`/user/updateUsername/${id}`),
+    data: { username }
+  };
+  const response = await axios(request);
+  return response;
+};
+
+export const UpdateDisplayNameById = async(displayname, id) => {
+  const request = {
+    method: 'put',
+    url: BASE_URL.concat(`/user/updateDisplayname/${id}`),
+    data: { displayname }
+  };
+  const response = await axios(request);
+  return response;
+};

@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors')
 const mongoose = require('mongoose');
 const authRouter = require('./authRouter');
+const userRoute = require('./userRouter');
 const session = require('express-session');
 
 const PORT = process.env.PORT || 5000
@@ -17,6 +18,7 @@ app.use(session({
   saveUninitialized: false
 }))
 app.use('/auth', authRouter);
+app.use('/user', userRoute);
 
 const start = async () => {
   try {

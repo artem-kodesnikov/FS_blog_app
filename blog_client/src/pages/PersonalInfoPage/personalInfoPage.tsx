@@ -6,6 +6,8 @@ import { NavBar } from "../../components/NavBar";
 import { changeUserData } from "../../features/userInfo/userInfoSlice";
 import { PersonalInfoRow } from "../../components/PersonalInfoRow";
 import style from './personalInfoPage.module.scss';
+import { UpdateUserNameById, UpdateDisplayNameById } from "../../api/requests";
+import { toast } from "react-toastify";
 
 export const userData = {
   username: 'username',
@@ -37,8 +39,23 @@ export const PersonalInfoPage = () => {
     }
   });
 
-  const onSubmit = (data: FormValues) => {
-    dispatch(changeUserData(data));
+  const onSubmit = async (data: FormValues) => {
+    try {
+      console.log(data);
+      console.log(userInfo);
+      dispatch(changeUserData(data));
+      if (data.username !== userInfo.username) {
+        await UpdateUserNameById(data.username, userInfo.id);
+        toast.success('Username is updated');
+      }
+      if (data.displayname !== userInfo.displayname) {
+        await UpdateDisplayNameById(data.displayname, userInfo.id);
+        toast.success('Displayname is updated');
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
   };
 
   return (

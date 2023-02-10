@@ -9,8 +9,11 @@ import { SignInPage } from './pages/SignInPage';
 import { SignUpPage } from './pages/SignUpPage';
 import { ToastWrapper } from './components/ToastContainer';
 import { PersonalInfoPage } from './pages/PersonalInfoPage';
+import { useAppSelector } from './app/hooks';
 
 function App() {
+  const id = useAppSelector(state => state.userInfo.user.id);
+
   return (
     <>
       <Routes>
@@ -41,7 +44,7 @@ function App() {
         />
         <Route path='*' element={<PageNotFound />} />
         <Route
-          path='/personalInfo'
+          path={`/personalInfo/${id}`}
           index
           element={
             <ProtectedRoute>

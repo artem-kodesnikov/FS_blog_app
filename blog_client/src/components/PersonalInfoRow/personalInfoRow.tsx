@@ -19,37 +19,37 @@ export const PersonalInfoRow: FC<Props> = ({ name, username, register, setFocus}
   }, [isUpdating]);
   return (
     <div className={style.info_row}>
-              <div className={style.info_values}>
-                <p className={style.info_title}>
-                  {name || 'Info not found'}
-                </p>
-                {isUpdating
-                  ?
-                  <input
-                    {...register(name as F, {
-                      minLength: {
-                        value: 5,
-                        message: 'Can\'t be less than 5 characters'
-                      },
-                    })}
-                    className={style.update_input}
-                    type="text"
-                  />
-                  : <p className={style.info_value}>
-                    {username || 'Info not found'}
-                  </p>
-                }
-              </div>
-              {!isUpdating
-                ? <button onClick={() => setIsUpdating(true)} className={style.update_btn} type="submit">
-                    Update
-                    <img className={style.info_ico} src="./icon/editing.png" />
-                  </button>
-                : <button onClick={() => setIsUpdating(false)} className={style.update_btn}>
-                    Save
-                    <img className={style.info_ico} src="./icon/approve.png" />
-                  </button>
-              }
-            </div>
+      <div className={style.info_values}>
+        <p className={style.info_title}>
+          {name || 'Info not found'}
+        </p>
+        {isUpdating
+          ?
+          <input
+            {...register(name as F, {
+              minLength: {
+                value: 5,
+                message: 'Can\'t be less than 5 characters'
+              },
+            })}
+            className={style.update_input}
+            type="text"
+          />
+          : <p className={style.info_value}>
+            {username || 'Info not found'}
+          </p>
+        }
+      </div>
+      {!isUpdating
+        ? <button onClick={() => setIsUpdating(true)} className={style.update_btn}>
+            Update
+            <img className={style.info_ico} src="./icon/editing.png" />
+          </button>
+        : <button type='submit' onClick={() => setIsUpdating(false)} className={style.update_btn}>
+            Save
+            <img className={style.info_ico} src="./icon/approve.png" />
+          </button>
+      }
+    </div>
   );
 };

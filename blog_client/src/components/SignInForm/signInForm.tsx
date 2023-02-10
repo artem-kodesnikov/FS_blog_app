@@ -30,6 +30,7 @@ export const SingInForm = () => {
   const handleSignIn = async (data: FormType) => {
     const { username, password } = data;
     dispatch(changeStateLoader(true));
+
     try {
       const login = await Login(username, password);
       const userInfo = {
