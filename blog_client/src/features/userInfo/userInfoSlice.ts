@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { FormValues } from "../../pages/PersonalInfoPage";
 
 interface User {
   user: {
@@ -8,12 +10,7 @@ interface User {
     displayname: string
   },
   updateRow: string,
-}
-
-interface UserData {
-  id: string,
-  username: string,
-  displayname: string,
+  isUpdating: boolean
 }
 
 const initialState: User = {
@@ -23,11 +20,12 @@ const initialState: User = {
     displayname: '',
   },
   updateRow: '',
+  isUpdating: false
 };
 
 export const updateUserNameById = createAsyncThunk(
   'userInfo/updateUserNameById',
-  async function (data: UserData, { rejectWithValue }) {
+  async function (data: FormValues, { rejectWithValue }) {
     const { id, username } = data;
 
     const request = {
@@ -39,7 +37,25 @@ export const updateUserNameById = createAsyncThunk(
     if (response.status !== 200) {
       rejectWithValue('Update error');
     }
-    return response;
+    return data;
+  }
+);
+
+export const updateDisplayNameById = createAsyncThunk(
+  'userInfo/updateDipslayNameById',
+  async function (data: FormValues, { rejectWithValue }) {
+    const { id, displayname } = data;
+
+    const request = {
+      method: 'put',
+      url: `http://localhost:5000/user/updateDisplayname/${id}`,
+      data: { displayname }
+    };
+    const response = await axios(request);
+    if (response.status !== 200) {
+      rejectWithValue('Update error');
+    }
+    return data;
   }
 );
 
@@ -50,32 +66,37 @@ export const userInfoSlice = createSlice({
     getUserInfo: (state: User, action) => {
       state.user = action.payload;
     },
-    handleUserUpdate: (state: User, action) => {
-      state.updateRow = action.payload[1];
-    },
-    changeUserData: (state: User, action) => {
-      state.user = {...state.user, ...action.payload};
-    }
   },
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(updateUserNameById.pending, () => {
-  //       // state.user.username = 'loading';
-  //     })
-  //     .addCase(updateUserNameById.fulfilled, (state, action) => {
-  //       state.user = {...state.user, ...action.payload};
-  //       state.user.username = 'username';
-  //     })
-  //     .addCase(updateUserNameById.rejected, (state) => {
-  //       state.user.username = 'error';
-  //     });
-  // }
+  extraReducers: (builder) => {
+    builder
+      .addCase(updateUserNameById.pending, (state) => {
+        state.isUpdating = true;
+      })
+      .addCase(updateUserNameById.fulfilled, (state, action) => {
+        state.user = {...state.user, ...action.payload};
+        toast.success('Username updated');
+        state.isUpdating = false;
+      })
+      .addCase(updateUserNameById.rejected, (state) => {
+        state.isUpdating = false;
+      })
+
+      .addCase(updateDisplayNameById.pending, (state) => {
+        state.isUpdating = true;
+      })
+      .addCase(updateDisplayNameById.fulfilled, (state, action) => {
+        state.user = {...state.user, ...action.payload};
+        toast.success('Displayname updated');
+        state.isUpdating = false;
+      })
+      .addCase(updateDisplayNameById.rejected, (state) => {
+        state.isUpdating = false;
+      });
+  }
 });
 
 export const {
   getUserInfo,
-  handleUserUpdate,
-  changeUserData,
 } = userInfoSlice.actions;
 
 export default userInfoSlice.reducer;

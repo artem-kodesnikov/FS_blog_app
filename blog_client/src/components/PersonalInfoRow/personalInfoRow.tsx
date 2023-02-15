@@ -11,12 +11,19 @@ interface Props {
 }
 
 
-export const PersonalInfoRow: FC<Props> = ({ name, username, register, setFocus}) => {
+export const PersonalInfoRow: FC<Props> = ({ name, username, register, setFocus }) => {
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     setFocus(name as F);
   }, [isUpdating]);
+
+  const handleEnter = (e: any) => {
+    if (e.key === 'Enter') {
+      setIsUpdating(false);
+    }
+  };
+
   return (
     <div className={style.info_row}>
       <div className={style.info_values}>
@@ -32,6 +39,7 @@ export const PersonalInfoRow: FC<Props> = ({ name, username, register, setFocus}
                 message: 'Can\'t be less than 5 characters'
               },
             })}
+            onKeyDown={(e) => handleEnter(e)}
             className={style.update_input}
             type="text"
           />
@@ -42,13 +50,13 @@ export const PersonalInfoRow: FC<Props> = ({ name, username, register, setFocus}
       </div>
       {!isUpdating
         ? <button onClick={() => setIsUpdating(true)} className={style.update_btn}>
-            Update
-            <img className={style.info_ico} src="./icon/editing.png" />
-          </button>
+          Update
+          <img className={style.info_ico} src="./icon/editing.png" />
+        </button>
         : <button type='submit' onClick={() => setIsUpdating(false)} className={style.update_btn}>
-            Save
-            <img className={style.info_ico} src="./icon/approve.png" />
-          </button>
+          Save
+          <img className={style.info_ico} src="./icon/approve.png" />
+        </button>
       }
     </div>
   );

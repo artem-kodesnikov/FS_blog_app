@@ -22,7 +22,7 @@ export const SignUpForm = () => {
     },
     handleSubmit,
     watch,
-  } = useForm<FormType>({ defaultValues: { username: '', displayname: '', password: '', confirmPassword: ''}});
+  } = useForm<FormType>({ defaultValues: { username: '', displayname: '', password: '', confirmPassword: '' } });
 
   const [isVisiblePass, setIsVisiblePass] = useState(false);
   const [isVisibleConfirmPass, setIsVisibleConfirmPass] = useState(false);
@@ -31,9 +31,9 @@ export const SignUpForm = () => {
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
-      reset({ username: '', displayname: '', password: '', confirmPassword: ''});
+      reset({ username: '', displayname: '', password: '', confirmPassword: '' });
     }
-  }, [formState,reset, isSubmitSuccessful]);
+  }, [formState, reset, isSubmitSuccessful]);
 
   const handleSignUp = async (data: FormType) => {
     const { username, displayname, password } = data;
@@ -44,7 +44,7 @@ export const SignUpForm = () => {
         toast.success('User created!');
         return newUser;
       }
-      reset({...data});
+      reset({ ...data });
     }
     catch (error) {
       toast.error(error.response.data.message);
