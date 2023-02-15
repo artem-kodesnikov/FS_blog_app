@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 interface User {
   user: {
@@ -6,8 +7,13 @@ interface User {
     username: string,
     displayname: string
   },
-  // isUpdating: boolean,
   updateRow: string,
+}
+
+interface UserData {
+  id: string,
+  username: string,
+  displayname: string,
 }
 
 const initialState: User = {
@@ -18,6 +24,24 @@ const initialState: User = {
   },
   updateRow: '',
 };
+
+export const updateUserNameById = createAsyncThunk(
+  'userInfo/updateUserNameById',
+  async function (data: UserData, { rejectWithValue }) {
+    const { id, username } = data;
+
+    const request = {
+      method: 'put',
+      url: `http://localhost:5000/user/updateUsername/${id}`,
+      data: { username }
+    };
+    const response = await axios(request);
+    if (response.status !== 200) {
+      rejectWithValue('Update error');
+    }
+    return response;
+  }
+);
 
 export const userInfoSlice = createSlice({
   name: 'userInfo',
@@ -32,7 +56,20 @@ export const userInfoSlice = createSlice({
     changeUserData: (state: User, action) => {
       state.user = {...state.user, ...action.payload};
     }
-  }
+  },
+  // extraReducers: (builder) => {
+  //   builder
+  //     .addCase(updateUserNameById.pending, () => {
+  //       // state.user.username = 'loading';
+  //     })
+  //     .addCase(updateUserNameById.fulfilled, (state, action) => {
+  //       state.user = {...state.user, ...action.payload};
+  //       state.user.username = 'username';
+  //     })
+  //     .addCase(updateUserNameById.rejected, (state) => {
+  //       state.user.username = 'error';
+  //     });
+  // }
 });
 
 export const {
