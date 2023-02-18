@@ -9,6 +9,7 @@ import {
   PURGE,
   REGISTER
 } from 'redux-persist';
+import { getPersistConfig } from 'redux-deep-persist';
 import storage from 'redux-persist/lib/storage';
 import loaderSlice from "../features/loader/loaderSlice";
 import userInfoSlice from "../features/userInfo/userInfoSlice";
@@ -18,11 +19,12 @@ const rootReducer = combineReducers({
   userInfo: userInfoSlice,
 });
 
-const persistConfig = {
+const persistConfig = getPersistConfig({
   key: 'root',
   storage,
-  blacklist: ['loader']
-};
+  blacklist: ['loader', 'userInfo.updatingRow'],
+  rootReducer
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

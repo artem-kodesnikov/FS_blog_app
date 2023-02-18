@@ -9,7 +9,7 @@ interface User {
     username: string,
     displayname: string
   },
-  updateRow: string,
+  updatingRow: string,
   isUpdating: boolean
 }
 
@@ -19,7 +19,7 @@ const initialState: User = {
     username: '',
     displayname: '',
   },
-  updateRow: '',
+  updatingRow: '',
   isUpdating: false
 };
 
@@ -37,6 +37,7 @@ export const updateUserNameById = createAsyncThunk(
     if (response.status !== 200) {
       rejectWithValue('Update error');
     }
+    console.log(response);
     return data;
   }
 );
@@ -65,6 +66,9 @@ export const userInfoSlice = createSlice({
   reducers: {
     getUserInfo: (state: User, action) => {
       state.user = action.payload;
+    },
+    setUpdatingRow: (state, action) => {
+      state.updatingRow = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -97,6 +101,7 @@ export const userInfoSlice = createSlice({
 
 export const {
   getUserInfo,
+  setUpdatingRow
 } = userInfoSlice.actions;
 
 export default userInfoSlice.reducer;

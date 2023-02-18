@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Loader } from "../../components/Loader";
@@ -28,6 +28,8 @@ export const PersonalInfoPage = () => {
   const isLoading = useAppSelector(state => state.loader.isLoading);
   const userIsUpdating = useAppSelector(state => state.userInfo.isUpdating);
   const userInfo = useAppSelector(state => state.userInfo.user);
+  const [isUpdating, setIsUpdating] = useState(false);
+
 
   const { id, username, displayname } = userInfo;
   const {
@@ -36,6 +38,7 @@ export const PersonalInfoPage = () => {
     setFocus,
     formState: {
       errors,
+      isValid,
     }
   } = useForm<FormValues>({
     mode: "onChange",
@@ -60,13 +63,6 @@ export const PersonalInfoPage = () => {
     }
   };
 
-  const checkKeyDown  = (e: any) => {
-    if (Object.keys(errors).length !== 0 && e.key === 'Enter') {
-      e.preventDefault();
-    }
-  };
-  console.log(errors);
-
   return (
     <>
       <NavBar />
@@ -76,18 +72,24 @@ export const PersonalInfoPage = () => {
           <h3 className={style.title}>
             Main information
           </h3>
-          <form onSubmit={handleSubmit(onSubmit)} onKeyDown={(e) => checkKeyDown(e)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <PersonalInfoRow
               name={userData.username}
               username={userInfo.username}
               register={register}
               setFocus={setFocus}
+              isValid={isValid}
+              isUpdating={isUpdating}
+              setIsUpdating={setIsUpdating}
             />
             <PersonalInfoRow
               name={userData.displayname}
               username={userInfo.displayname}
               register={register}
               setFocus={setFocus}
+              isValid={isValid}
+              isUpdating={isUpdating}
+              setIsUpdating={setIsUpdating}
             />
           </form>
           <FormFieldError error={errors.username?.message}/>
