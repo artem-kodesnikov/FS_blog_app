@@ -1,22 +1,21 @@
 import React, { FC } from "react";
+import { Post } from "../../types/post";
 import style from './postItem.module.scss';
 
-interface Props {
-  title: string,
-  url: string
-}
-
-export const PostItem: FC<Props> = ({ url }) => {
+export const PostItem: FC<Post> = ({ title, content, url, date }) => {
+  const postDate = new Date(date).toLocaleDateString();
   return (
     <div className={style.container}>
-      <img className={style.image} src={url} alt="image" />
+      {url
+        ? <img className={style.image} src={url} alt="image" />
+        : <img className={style.no_image} src="./icon/no-photo.png" alt="no image" />
+      }
       <div className={style.content_wrapper}>
         <h3 className={style.title}>
-          {/* {title} */}
-          Lorem ipsum dolor sit amet.
+          {title}
         </h3>
         <p className={style.content}>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam error nesciunt quae facere, distinctio repudiandae libero minima tempora excepturi dolor numquam recusandae, veniam enim ab doloribus porro incidunt cupiditate accusantium.
+          {content}
         </p>
         <div className={style.post_info}>
           <img className={style.icon} src="./icon/post_user.png" alt="user" />
@@ -24,7 +23,7 @@ export const PostItem: FC<Props> = ({ url }) => {
         </div>
         <div className={style.post_info}>
           <img className={style.icon} src="./icon/calendar.png" alt="date" />
-          <p>DATA</p>
+          <p>{postDate}</p>
         </div>
       </div>
     </div>

@@ -1,0 +1,23 @@
+.pagination_list {
+  display: flex;
+  gap: 15px;
+}
+
+.pagination_item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #5f962c;
+  border-radius: 7px;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #5f962c75;
+  }
+}
+
+.active {
+  background-color: white;
+}
