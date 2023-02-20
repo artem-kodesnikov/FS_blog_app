@@ -8,6 +8,7 @@ import { DropDownLogout } from "../DropDownLogout";
 import style from './navBar.module.scss';
 import { useAppDispatch } from '../../app/hooks';
 import { changeStateLoader } from '../../features/loader/loaderSlice';
+import { setIsAdding } from "../../features/Post/postSlice";
 
 
 export const NavBar = () => {
@@ -67,6 +68,9 @@ export const NavBar = () => {
       <nav>
         <Link to='/' className={style.logo}>LOGO</Link>
         <div className={style.menu_container} ref={dropDownRef}>
+          <div className={style.new_post}>
+            <button className={style.post_btn} onClick={() => dispatch(setIsAdding(true))}>New post</button>
+          </div>
           <div onClick={handleOpenMenu} className={style.user}>
             <img className={style.user_icon} src="./icon/user.png" alt="user icon" />
           </div>
