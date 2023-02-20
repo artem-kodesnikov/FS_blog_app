@@ -4,4 +4,5 @@ export interface Post {
   content: string,
   url?: string,
   date: string,
+  user: string,
 }

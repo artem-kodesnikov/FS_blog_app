@@ -5,6 +5,7 @@ const Post = new Schema({
   content: {type: String, required: true},
   image: {type: String, required: false},
   date: { type: Date, default: Date.now },
+  user: {type: String, required: true},
 });
 
 module.exports = model('Post', Post);

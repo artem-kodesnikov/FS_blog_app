@@ -10,7 +10,7 @@ export const PostList = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +34,13 @@ export const PostList = () => {
   return (
     <>
       {posts.map((post: Post) => (
-        <PostItem key={post.id} title={post.title} content={post.content} date={post.date} />
+        <PostItem
+          key={post.id}
+          title={post.title}
+          content={post.content}
+          date={post.date}
+          user={post.user}
+        />
       ))}
       <ul className={style.pagination_list}>
         {pageNumbers.map((number: any) => (

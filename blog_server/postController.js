@@ -3,7 +3,7 @@ const Post = require('./models/Post');
 class postController {
   async getPosts(req, res) {
     try {
-      const posts = await Post.find();
+      const posts = await Post.find().sort({date: -1});
       res.send(posts);
     } catch (e) {
       console.log(e);
@@ -55,7 +55,7 @@ class postController {
       };
     }
     try {
-      results.current = await Post.find().limit(limit).skip(startIndex).exec();
+      results.current = await Post.find().sort({date: -1}).limit(limit).skip(startIndex).exec();
       res.send(results);
     } catch (e) {
       res.status(400).json({ message: 'Pagination error'})
