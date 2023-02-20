@@ -5,6 +5,7 @@ import { PostItem } from "../PostItem";
 import style from './postList.module.scss';
 import classNames from "classnames";
 import { Loader } from "../Loader";
+import { BASE_URL } from "../../api/requests";
 
 export const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -18,8 +19,8 @@ export const PostList = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const allPosts = await axios.get(`http://localhost:5000/posts/data`);
-        const result = await axios.get(`http://localhost:5000/posts/data?page=${currentPage}&limit=${itemsPerPage}`);
+        const allPosts = await axios.get(`${BASE_URL}/posts/data`);
+        const result = await axios.get(`${BASE_URL}/posts/data?page=${currentPage}&limit=${itemsPerPage}`);
         setAllPosts(allPosts.data.current);
         setPosts(result.data.current);
       } catch (error) {
@@ -54,7 +55,7 @@ export const PostList = () => {
           user={post.user}
           url={post.url}
         />
-        
+
       ))}
       <ul className={style.pagination_list}>
         {pageNumbers.map((number: any) => (
