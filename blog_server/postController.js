@@ -23,8 +23,8 @@ class postController {
 
   async createPost(req, res) {
     try {
-      const { title, content } = req.body;
-      const post = new Post({ title, content });
+      const { title, content, user, url } = req.body;
+      const post = new Post({ title, content, user, url });
       await post.save();
       res.status(201).json({message: 'Post created'});
     } catch (e) {

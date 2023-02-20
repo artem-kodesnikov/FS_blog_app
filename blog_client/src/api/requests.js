@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://fs-blog-server.onrender.com';
-// const BASE_URL = 'http://localhost:5000';
+// const BASE_URL = 'https://fs-blog-server.onrender.com';
+const BASE_URL = 'http://localhost:5000';
 
 export const RegisterUser = async (username, displayname, password) => {
   const request = {
@@ -35,22 +35,12 @@ export const Logout = async () => {
   return response;
 };
 
-// export const UpdateUserNameById = async(username, id) => {
-//   const request = {
-//     method: 'put',
-//     url: BASE_URL.concat(`/user/updateUsername/${id}`),
-//     data: { username }
-//   };
-//   const response = await axios(request);
-//   return response;
-// };
-
-// export const UpdateDisplayNameById = async(displayname, id) => {
-//   const request = {
-//     method: 'put',
-//     url: BASE_URL.concat(`/user/updateDisplayname/${id}`),
-//     data: { displayname }
-//   };
-//   const response = await axios(request);
-//   return response;
-// };
+export const CreateNewPost = async (title, content, user, url) => {
+  const request = {
+    method: 'post',
+    url: BASE_URL.concat('/posts/createPost'),
+    data: { title, content, user, url },
+  };
+  const response = await axios(request);
+  return response;
+};

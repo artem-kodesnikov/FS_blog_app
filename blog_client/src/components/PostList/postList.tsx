@@ -4,26 +4,37 @@ import { Post } from "../../types/post";
 import { PostItem } from "../PostItem";
 import style from './postList.module.scss';
 import classNames from "classnames";
+import { Loader } from "../Loader";
 
 export const PostList = () => {
   const [posts, setPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
 
   useEffect(() => {
     const fetchData = async () => {
-      const allPosts = await axios.get(`http://localhost:5000/posts/data`);
-      const result = await axios.get(`http://localhost:5000/posts/data?page=${currentPage}&limit=${itemsPerPage}`);
-      setAllPosts(allPosts.data.current);
-      setPosts(result.data.current);
+      setIsLoading(true);
+      try {
+        const allPosts = await axios.get(`http://localhost:5000/posts/data`);
+        const result = await axios.get(`http://localhost:5000/posts/data?page=${currentPage}&limit=${itemsPerPage}`);
+        setAllPosts(allPosts.data.current);
+        setPosts(result.data.current);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchData();
-  }, [currentPage, itemsPerPage]);
+  }, [currentPage, itemsPerPage,]);
 
-  const handleClick = (event: any) => {
-    setCurrentPage(+event.target.id);
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    setCurrentPage(+e.target.id);
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   };
 
   const pageNumbers = [];
@@ -33,6 +44,7 @@ export const PostList = () => {
 
   return (
     <>
+      {isLoading && <Loader />}
       {posts.map((post: Post) => (
         <PostItem
           key={post.id}
@@ -40,7 +52,9 @@ export const PostList = () => {
           content={post.content}
           date={post.date}
           user={post.user}
+          url={post.url}
         />
+        
       ))}
       <ul className={style.pagination_list}>
         {pageNumbers.map((number: any) => (

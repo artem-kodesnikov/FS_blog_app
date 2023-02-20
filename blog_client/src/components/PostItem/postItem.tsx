@@ -21,7 +21,7 @@ export const PostItem: FC<Post> = ({ title, content, url, date, user }) => {
         </p>
         <div className={style.post_info}>
           <img className={style.icon} src="./icon/post_user.png" alt="user" />
-          <p>{user || 'undefined'}</p>
+          <p>{user}</p>
         </div>
         <div className={style.post_info}>
           <img className={style.icon} src="./icon/calendar.png" alt="date" />
