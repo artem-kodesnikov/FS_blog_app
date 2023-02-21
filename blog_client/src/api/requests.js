@@ -34,13 +34,3 @@ export const Logout = async () => {
   const response = await axios(request);
   return response;
 };
-
-export const CreateNewPost = async (title, content, user, url) => {
-  const request = {
-    method: 'post',
-    url: BASE_URL.concat('/posts/createPost'),
-    data: { title, content, user, url },
-  };
-  const response = await axios(request);
-  return response;
-};

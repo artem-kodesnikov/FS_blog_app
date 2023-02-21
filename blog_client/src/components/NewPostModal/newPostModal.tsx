@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { CreateNewPost } from "../../api/requests";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { changeStateLoader } from "../../features/loader/loaderSlice";
-import { setIsAdding } from "../../features/Post/postSlice";
+import { createNewPost, setIsAdding } from "../../features/Post/postSlice";
 import { Post } from "../../types/post";
 import { FormFieldError } from "../FormFieldError";
+import { Loader } from "../Loader";
 import style from './newPostModal.module.scss';
 
 export const NewPostModal = () => {
@@ -24,6 +23,7 @@ export const NewPostModal = () => {
   const [textCount, setTextCount] = useState(0);
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector(state => state.userInfo.user);
+  const isLoading = useAppSelector(state => state.post.isLoading);
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
@@ -32,26 +32,19 @@ export const NewPostModal = () => {
   }, [formState, reset, isSubmitSuccessful]);
 
   const onSubmit = async (data: Post) => {
-    const { title, content, user, url } = data;
-    dispatch(changeStateLoader(true));
     try {
-      const newPost = await CreateNewPost(title, content, user, url);
-      if (newPost.status === 201) {
-        toast.success('Post created!');
-        return newPost;
-      }
+      dispatch(createNewPost(data));
       reset({ ...data });
       setIsAdding(false);
     }
     catch (error) {
       toast.error(error.response.data.message);
     }
-    finally {
-      dispatch(changeStateLoader(false));
-    }
   };
+
   return (
     <div className={style.container}>
+      {isLoading && <Loader/> }
       <div className={style.modal}>
         <div className={style.modal_content}>
           <form className={style.form} action="submit" onSubmit={handleSubmit(onSubmit)}>

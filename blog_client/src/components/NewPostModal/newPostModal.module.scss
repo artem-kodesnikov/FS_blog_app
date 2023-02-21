@@ -14,12 +14,6 @@
 
 .modal {
   display: flex;
-  // justify-content: center;
-  // height: 400px;
-  // min-width: 320px;
-  // background-color: #fff;
-  // padding: 15px;
-  // border-radius: 4px;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -112,7 +106,6 @@
   position: absolute;
   height: 10px;
   width: 10px;
-  // right: 10px;
 }
 
 .required_label {
