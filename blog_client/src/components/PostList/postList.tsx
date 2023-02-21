@@ -51,14 +51,14 @@ export const PostList = () => {
       {isLoading && <Loader />}
       {paginationPosts.map((post: Post) => (
         <PostItem
-          key={post.id}
+          key={post._id}
+          _id={post._id}
           title={post.title}
           content={post.content}
           date={post.date}
           user={post.user}
           url={post.url}
         />
-
       ))}
       <ul className={style.pagination_list}>
         {pageNumbers.map((number: any) => (

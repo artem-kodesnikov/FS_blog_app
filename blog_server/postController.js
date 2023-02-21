@@ -25,11 +25,23 @@ class postController {
     try {
       const { title, content, user, url } = req.body;
       const post = new Post({ title, content, user, url });
+      console.log(post);
       await post.save();
       res.status(201).json({message: 'Post created'});
     } catch (e) {
       console.log(e);
       res.status(400).json({ message: 'Post error'})
+    }
+  }
+
+  async deletePost(req, res) {
+    try {
+      const { id } = req.body;
+      const post = await Post.findByIdAndDelete(id);
+      res.send(post);
+    } catch (e) {
+      console.log(e)
+      res.status(400).json({ message: 'Delete error'})
     }
   }
 

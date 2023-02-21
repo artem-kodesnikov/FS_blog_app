@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { BASE_URL } from "../../api/requests";
 
 interface Post {
-  id?: string,
+  _id?: string,
   title: string,
   content: string,
   url?: string,
@@ -44,6 +44,23 @@ export const createNewPost = createAsyncThunk(
   }
 );
 
+export const deletePostById = createAsyncThunk(
+  'post/deletePost',
+  async function (id: string | undefined, { rejectWithValue }) {
+    console.log(id);
+    const request = {
+      method: 'delete',
+      url: BASE_URL.concat('/posts/deletePost'),
+      data: { id },
+    };
+    const response = await axios(request);
+    if (response.status !== 200) {
+      rejectWithValue('Update error');
+    }
+    return id;
+  }
+);
+
 export const postSlice = createSlice({
   name: 'post',
   initialState,
@@ -64,10 +81,15 @@ export const postSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(createNewPost.fulfilled, (state, action) => {
-        state.paginationPosts = [action.payload, ...state.posts];
+        state.paginationPosts = [action.payload, ...state.paginationPosts];
         toast.success('Post created!');
         state.isAdding = false;
         state.isLoading = false;
+      })
+      .addCase(deletePostById.fulfilled, (state, action) => {
+        state.paginationPosts = state.paginationPosts.filter(post => post._id !== action.payload);
+        console.log(action.payload);
+        toast.success('Post deleted!');
       });
   }
 });

@@ -1,12 +1,18 @@
 import React, { FC } from "react";
+import { useAppDispatch } from "../../app/hooks";
+import { deletePostById } from "../../features/Post/postSlice";
 import { Post } from "../../types/post";
 import style from './postItem.module.scss';
 
-export const PostItem: FC<Post> = ({ title, content, url, date, user }) => {
+export const PostItem: FC<Post> = ({ _id, title, content, url, date, user }) => {
   const postDate = new Date(date).toLocaleDateString();
+  const dispatch = useAppDispatch();
   return (
     <div className={style.container}>
       <div className={style.image_wrapper}>
+        <div onClick={() => dispatch(deletePostById(_id))} className={style.hover_image}>
+          <img className={style.delete} src="./icon/delete.png" alt="delete" />
+        </div>
         {url
           ? <img className={style.image} src={url} alt="image" />
           : <img className={style.no_image} src="./icon/no-photo.png" alt="no image" />
