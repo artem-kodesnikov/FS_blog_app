@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// export const BASE_URL = 'https://fs-blog-server.onrender.com';
-export const BASE_URL = 'http://localhost:5000';
+export const BASE_URL = 'https://fs-blog-server.onrender.com';
+// export const BASE_URL = 'http://localhost:5000';
 
 export const RegisterUser = async (username, displayname, password) => {
   const request = {

@@ -26,7 +26,7 @@ class userController {
       const candidate = await User.findOne({ displayname })
 
       if (candidate) {
-        return res.status(400).json({message: `User ${displayname} already registered`})
+        return res.status(400).json({message: `Displayname ${displayname} already registered`})
       }
 
       await User.updateOne({_id: id}, {displayname: displayname})

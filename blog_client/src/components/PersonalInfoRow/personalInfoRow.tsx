@@ -1,66 +1,96 @@
-import React, { FC, useEffect } from 'react';
-import { UseFormRegister, UseFormSetFocus } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { setUpdatingRow } from '../../features/userInfo/userInfoSlice';
-import { F, FormValues } from '../../pages/PersonalInfoPage';
+import React, { FC, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { FormFieldError } from '../FormFieldError';
 import style from './personalInfoRow.module.scss';
 
-interface Props {
+export interface Form {
+  id: string,
   name: string,
-  username: string,
-  register: UseFormRegister<FormValues>,
-  setFocus: UseFormSetFocus<FormValues>,
-  isValid: boolean,
-  isUpdating: boolean,
-  setIsUpdating: (val: boolean) => void;
+  infoValue: string,
+  updateInfo: (data: Form) => void
 }
 
+export type F = keyof Form;
 
-export const PersonalInfoRow: FC<Props> = ({ name, username, register, setFocus, isValid, isUpdating, setIsUpdating }) => {
+
+export const PersonalInfoRow: FC<Form> = ({ id, name, infoValue, updateInfo }) => {
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const {
+    register,
+    setFocus,
+    formState: {
+      errors,
+      isValid,
+    },
+    handleSubmit,
+  } = useForm<Form>({
+    defaultValues: {
+      id,
+      [name]: infoValue,
+    }
+  });
+
+  const onSubmit = (data: Form) => {
+    try {
+      updateInfo(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const update = (e : any) => {
+    e.preventDefault();
+    setIsUpdating(true);
+  };
 
   useEffect(() => {
     setFocus(name as F);
   }, [isUpdating]);
 
-  const dispatch = useAppDispatch();
-  const updatingRow = useAppSelector(state => state.userInfo.updatingRow);
-
-  const update = () => {
-    dispatch(setUpdatingRow(name));
-    setIsUpdating(true);
-  };
-
   return (
-    <div className={style.info_row}>
-      <div className={style.info_values}>
-        <p className={style.info_title}>
-          {name || 'Info not found'}
-        </p>
-        {isUpdating && name === updatingRow
-          ?
-          <input
-            {...register(name as F, {
-              minLength: {
-                value: 5,
-                message: 'Can\'t be less than 5 characters'
-              },
-            })}
-            className={style.update_input}
-            type="text"
-          />
-          : <p className={style.info_value}>
-              {username || 'Info not found'}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className={style.info_row}>
+        <div className={style.info_values}>
+          <p className={style.info_title}>
+            {name || 'Info not found'}
+          </p>
+          {isUpdating
+            ?
+            <input
+              {...register(name as F, {
+                minLength: {
+                  value: 5,
+                  message: 'Can\'t be less than 5 characters'
+                },
+              })}
+              className={style.update_input}
+              type="text"
+            />
+            : <p className={style.info_value}>
+              {infoValue || 'Info not found'}
             </p>
+          }
+        </div>
+        {isUpdating
+          ? <button
+            onClick={() => setIsUpdating(false)}
+            className={style.update_btn}
+            type='submit'
+            disabled={!isValid}
+          >
+            Save
+            <img className={style.info_ico} src={"./icon/approve.png"} />
+          </button>
+          : <button onClick={(e) => update(e)}
+            className={style.update_btn}
+          >
+            Update
+            <img className={style.info_ico} src={"./icon/editing.png"} />
+          </button>
         }
-      </div>
-        <button
-          onClick={() => !isUpdating ? update() : setIsUpdating(false)}
-          className={style.update_btn}
-          disabled={!isValid}
-        >
-          {!isUpdating ? 'Update' : 'Save'}
-          <img className={style.info_ico} src={!isUpdating ? "./icon/editing.png" : "./icon/approve.png"} />
-        </button>
-      </div>
+      </div >
+      <FormFieldError error={errors.name?.message}/>
+    </form>
   );
 };

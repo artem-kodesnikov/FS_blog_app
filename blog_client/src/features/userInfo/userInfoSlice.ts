@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { AnyAction, createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { FormValues } from "../../pages/PersonalInfoPage";
+import { BASE_URL } from "../../api/requests";
 
 interface User {
   user: {
@@ -25,40 +25,56 @@ const initialState: User = {
 
 export const updateUserNameById = createAsyncThunk(
   'userInfo/updateUserNameById',
-  async function (data: FormValues, { rejectWithValue }) {
+  async function (data: any, { rejectWithValue }) {
     const { id, username } = data;
 
     const request = {
       method: 'put',
-      url: `http://localhost:5000/user/updateUsername/${id}`,
+      url: `${BASE_URL}/user/updateUsername/${id}`,
       data: { username }
     };
-    const response = await axios(request);
-    if (response.status !== 200) {
-      rejectWithValue('Update error');
+    try {
+      const response = await axios(request);
+      console.log(response);
+      if (response.status !== 200) {
+        return rejectWithValue('Error');
+      }
+      return data;
+    } catch (error) {
+      console.log(error.response.data.message);
+      return rejectWithValue(error.response.data.message);
     }
-    console.log(response);
-    return data;
   }
 );
 
 export const updateDisplayNameById = createAsyncThunk(
   'userInfo/updateDipslayNameById',
-  async function (data: FormValues, { rejectWithValue }) {
+  async function (data: any, { rejectWithValue }) {
     const { id, displayname } = data;
 
     const request = {
       method: 'put',
-      url: `http://localhost:5000/user/updateDisplayname/${id}`,
+      url: `${BASE_URL}/user/updateDisplayname/${id}`,
       data: { displayname }
     };
-    const response = await axios(request);
-    if (response.status !== 200) {
-      rejectWithValue('Update error');
-    }
-    return data;
+        try {
+          const response = await axios(request);
+          console.log(response);
+          if (response.status !== 200) {
+            return rejectWithValue('Error');
+          }
+          return data;
+        } catch (error) {
+          console.log(error.response.data.message);
+          return rejectWithValue(error.response.data.message);
+        }
   }
 );
+
+const isError = (action: AnyAction) => {
+  console.log(action);
+  return action.type.endsWith('rejected');
+};
 
 export const userInfoSlice = createSlice({
   name: 'userInfo',
@@ -81,10 +97,6 @@ export const userInfoSlice = createSlice({
         toast.success('Username updated');
         state.isUpdating = false;
       })
-      .addCase(updateUserNameById.rejected, (state) => {
-        state.isUpdating = false;
-      })
-
       .addCase(updateDisplayNameById.pending, (state) => {
         state.isUpdating = true;
       })
@@ -93,8 +105,9 @@ export const userInfoSlice = createSlice({
         toast.success('Displayname updated');
         state.isUpdating = false;
       })
-      .addCase(updateDisplayNameById.rejected, (state) => {
+      .addMatcher(isError, (state, action: PayloadAction<string>) => {
         state.isUpdating = false;
+        toast.error(action.payload);
       });
   }
 });
