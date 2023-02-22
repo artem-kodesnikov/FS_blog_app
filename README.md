@@ -18,6 +18,7 @@ Technologies used:
 Auth:
 - Register form
 - Login form
+- Logout button
 
 Posts:
 - Homepage with posts
