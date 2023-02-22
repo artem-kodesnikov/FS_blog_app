@@ -10,8 +10,8 @@ export const PostItem: FC<Post> = ({ _id, title, content, url, date, user }) => 
   return (
     <div className={style.container}>
       <div className={style.image_wrapper}>
-        <div onClick={() => dispatch(deletePostById(_id))} className={style.hover_image}>
-          <img className={style.delete} src="./icon/delete.png" alt="delete" />
+        <div className={style.hover_image}>
+          <img onClick={() => dispatch(deletePostById(_id))} className={style.delete} src="./icon/delete.png" alt="delete" />
         </div>
         {url
           ? <img className={style.image} src={url} alt="image" />
