@@ -1,21 +1,31 @@
 .info_row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid rgba(46, 46, 46, 0.2);
-  height: 30px;
+  // padding-bottom: 10px;
+  // margin-bottom: 10px;
+  // border-bottom: 1px solid rgba(46, 46, 46, 0.2);
+  // height: 30px;
 }
 
 .info_values {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(46, 46, 46, 0.2);
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 15px;
+  }
 }
 
 .info_title {
   font-size: 14px;
-  width: 200px;
+  width: 100px;
+
+  @media (max-width: 480px) {
+    width: fit-content;
+  }
 }
 
 .info_value {
@@ -34,6 +44,14 @@
   border-radius: 3px;
   outline: none;
   font-size: 18px;
+  min-width: 240px;
+
+  @media (max-width: 768px) {
+    min-width: 150px;
+  }
+  @media (max-width: 480px) {
+    max-width: 160px;
+  }
 }
 
 .update_btn {
