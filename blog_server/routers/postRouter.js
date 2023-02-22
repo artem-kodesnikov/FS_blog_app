@@ -1,6 +1,6 @@
 const Router = require('express');
 const router = new Router();
-const controller = require('./postController');
+const controller = require('../controllers/postController');
 
 router.get('/', controller.getPosts);
 router.get('/data', controller.postPagination);

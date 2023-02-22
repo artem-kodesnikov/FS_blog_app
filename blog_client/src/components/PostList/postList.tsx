@@ -17,6 +17,7 @@ export const PostList = () => {
   const dispatch = useAppDispatch();
   const allPosts = useAppSelector(state => state.post.posts);
   const paginationPosts = useAppSelector(state => state.post.paginationPosts);
+  const postLoading = useAppSelector(state => state.post.isLoading);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,10 +34,9 @@ export const PostList = () => {
       }
     };
     fetchData();
-  }, [currentPage, itemsPerPage,]);
+  }, [currentPage, itemsPerPage, postLoading]);
 
   const handleClick = (e: any) => {
-    e.preventDefault();
     setCurrentPage(+e.target.id);
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   };

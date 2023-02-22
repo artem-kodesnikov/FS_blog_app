@@ -24,16 +24,11 @@ export const PersonalInfoRow: FC<Props> = ({ name, username, register, setFocus,
 
   const dispatch = useAppDispatch();
   const updatingRow = useAppSelector(state => state.userInfo.updatingRow);
-  // const [localUpd, setLocalUpd] = useState(false);
 
   const update = () => {
     dispatch(setUpdatingRow(name));
     setIsUpdating(true);
-    // setLocalUpd(true);
   };
-
-  console.log({name, updatingRow});
-  console.log(isUpdating);
 
   return (
     <div className={style.info_row}>
@@ -60,7 +55,6 @@ export const PersonalInfoRow: FC<Props> = ({ name, username, register, setFocus,
       </div>
         <button
           onClick={() => !isUpdating ? update() : setIsUpdating(false)}
-          // onClick={() => !isUpdating ? update() : isUpdating && name === updatingRow && setIsUpdating(false)}
           className={style.update_btn}
           disabled={!isValid}
         >

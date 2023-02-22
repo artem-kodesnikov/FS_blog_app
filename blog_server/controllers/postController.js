@@ -1,4 +1,4 @@
-const Post = require('./models/Post');
+const Post = require('../models/Post');
 
 class postController {
   async getPosts(req, res) {
@@ -27,7 +27,7 @@ class postController {
       const post = new Post({ title, content, user, url });
       console.log(post);
       await post.save();
-      res.status(201).json({message: 'Post created'});
+      res.send(post);
     } catch (e) {
       console.log(e);
       res.status(400).json({ message: 'Post error'})

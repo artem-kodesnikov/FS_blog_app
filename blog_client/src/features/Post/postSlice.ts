@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { AnyAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BASE_URL } from "../../api/requests";
@@ -37,10 +37,11 @@ export const createNewPost = createAsyncThunk(
       data: { title, content, user, url },
     };
     const response = await axios(request);
+    console.log(response.data);
     if (response.status !== 200) {
-      rejectWithValue('Update error');
+      rejectWithValue('Creating post error');
     }
-    return data;
+    return response.data;
   }
 );
 
@@ -55,11 +56,15 @@ export const deletePostById = createAsyncThunk(
     };
     const response = await axios(request);
     if (response.status !== 200) {
-      rejectWithValue('Update error');
+      rejectWithValue('Delete error');
     }
     return id;
   }
 );
+
+const isError = (action: AnyAction) => {
+  return action.type.endsWith('rejected');
+};
 
 export const postSlice = createSlice({
   name: 'post',
@@ -86,10 +91,16 @@ export const postSlice = createSlice({
         state.isAdding = false;
         state.isLoading = false;
       })
+      .addCase(deletePostById.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(deletePostById.fulfilled, (state, action) => {
         state.paginationPosts = state.paginationPosts.filter(post => post._id !== action.payload);
-        console.log(action.payload);
+        state.isLoading = false;
         toast.success('Post deleted!');
+      })
+      .addMatcher(isError, (state) => {
+        state.isLoading = false;
       });
   }
 });
