@@ -1,8 +1,8 @@
-- [DEMO LINK](https://artem-kodesnikov.github.io/blog_app/)
+- [DEMO LINK](https://artem-kodesnikov.github.io/FS_blog_app/)
 
 Technologies used:
   - React.js, react-hook-form, react-toastify
-  - Redux-Toolkit
+  - Redux-Toolkit, redux-persist
   - Typescript
   - CSS(SCSS)
   - Axios
@@ -13,6 +13,12 @@ Technologies used:
 - npm start
 
 # Available to use
+Auth:
 - Register form
 - Login form
-- Homepage with logout button
+Posts:
+- Homepage with posts
+- Add post from modal window
+- Delete post
+Personal Info:
+- Update info
