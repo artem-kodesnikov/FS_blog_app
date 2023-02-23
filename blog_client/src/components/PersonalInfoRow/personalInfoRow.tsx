@@ -71,24 +71,24 @@ export const PersonalInfoRow: FC<Form> = ({ id, name, infoValue, updateInfo }) =
               {infoValue || 'Info not found'}
             </p>
           }
-        </div>
-        {isUpdating
-          ? <button
+          {isUpdating
+            ? <button
             onClick={() => setIsUpdating(false)}
             className={style.update_btn}
             type='submit'
             disabled={!isValid}
-          >
-            Save
-            <img className={style.info_ico} src={"./icon/approve.png"} />
-          </button>
-          : <button onClick={(e) => update(e)}
+            >
+              Save
+              <img className={style.info_ico} src={"./icon/approve.png"} />
+            </button>
+            : <button onClick={(e) => update(e)}
             className={style.update_btn}
-          >
-            Update
-            <img className={style.info_ico} src={"./icon/editing.png"} />
-          </button>
-        }
+            >
+              Update
+              <img className={style.info_ico} src={"./icon/editing.png"} />
+            </button>
+          }
+        </div>
       </div >
       <FormFieldError error={errors.name?.message}/>
     </form>
