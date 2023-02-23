@@ -61,6 +61,11 @@
 .no_image {
   height: 250px;
   margin-bottom: 10px;
+
+  @media (max-width: 490px) {
+    height: 100%;
+    width: 100%
+  }
 }
 
 .title {
