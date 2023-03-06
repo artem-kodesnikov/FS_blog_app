@@ -7,15 +7,21 @@ const postsRoute = require('./routers/postRouter');
 const session = require('express-session');
 
 const PORT = process.env.PORT || 5000
+const corsOptions ={
+  origin:'http://localhost:3000', 
+  credentials:true,
+  optionSuccessStatus:200
+}
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(session({
   secret: "thisismysecretkey",
   cookie: {
-    maxAge: 30000
+    maxAge: 30 * 24 * 60 * 60 * 1000,
   },
+  resave: true,
   saveUninitialized: false
 }))
 app.use('/auth', authRouter);

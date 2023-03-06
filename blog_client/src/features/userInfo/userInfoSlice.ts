@@ -72,7 +72,6 @@ export const updateDisplayNameById = createAsyncThunk(
 );
 
 const isError = (action: AnyAction) => {
-  console.log(action);
   return action.type.endsWith('rejected');
 };
 

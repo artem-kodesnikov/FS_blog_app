@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { secret } = require('../config')
+const { secret } = require('../config');
 
 const generateAccesToken = (id) => {
   const payload = {
@@ -26,6 +26,7 @@ class authController {
       res.status(400).json({message: 'Registration error'})
     }
   }
+
   async login(req, res) {
     try {
       const { username, password } = req.body;
@@ -38,13 +39,14 @@ class authController {
         res.status(400).json({ message: 'Password is not valid'})
       }
       req.session.authenticated = true;
-      req.session.user = { username, password }
+      req.session.user = user.displayname;
       const token = generateAccesToken(user._id)
       return res.status(201).json({token, user})
     } catch (e) {
       res.status(400).json({message: 'Login error'})
     }
   }
+
   async logout(req, res) {
     try {
       if (req.session) {

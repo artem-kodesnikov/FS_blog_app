@@ -2,15 +2,8 @@ import { AnyAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BASE_URL } from "../../api/requests";
+import { Post } from "../../types/post";
 
-interface Post {
-  _id?: string,
-  title: string,
-  content: string,
-  url?: string,
-  date: string,
-  user: string,
-}
 
 interface Posts {
   posts: Post[],
@@ -29,12 +22,12 @@ const initialState: Posts = {
 export const createNewPost = createAsyncThunk(
   'post/createNewPost',
   async function (data: Post, { rejectWithValue }) {
-    const { title, content, user, url, image } = data;
+    const { title, content, user, url } = data;
 
     const request = {
       method: 'post',
       url: BASE_URL.concat('/posts/createPost'),
-      data: { title, content, user, url, image },
+      data: { title, content, user, url },
     };
     try {
       const response = await axios(request);
@@ -50,18 +43,21 @@ export const createNewPost = createAsyncThunk(
 
 export const deletePostById = createAsyncThunk(
   'post/deletePost',
-  async function (id: string | undefined, { rejectWithValue }) {
-    console.log(id);
+  async function (_id: string | undefined, { rejectWithValue }) {
     const request = {
       method: 'delete',
       url: BASE_URL.concat('/posts/deletePost'),
-      data: { id },
+      data: { _id },
     };
-    const response = await axios(request);
-    if (response.status !== 200) {
-      rejectWithValue('Delete error');
+    try {
+      const response = await axios(request);
+      if (response.status !== 200) {
+        rejectWithValue('Delete error');
+      }
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
     }
-    return id;
+    return _id;
   }
 );
 

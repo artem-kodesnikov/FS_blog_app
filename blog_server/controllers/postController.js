@@ -3,21 +3,11 @@ const Post = require('../models/Post');
 class postController {
   async getPosts(req, res) {
     try {
-      const posts = await Post.find().sort({date: -1});
+      const posts = await Post.find().sort({ date: -1 });
       res.send(posts);
     } catch (e) {
       console.log(e);
-      res.status(400).json({ message: 'Posts error'})
-    }
-  }
-
-  async postById(req, res) {
-    try {
-      const post = await Post.findById(req.params.id);
-      res.send(post);
-    } catch (e) {
-      console.log(e);
-      res.status(400).json({ message: 'Post error'})
+      res.status(400).json({ message: 'Posts error' })
     }
   }
 
@@ -25,23 +15,26 @@ class postController {
     try {
       const { title, content, user, url } = req.body;
       const post = new Post({ title, content, user, url });
-      console.log(post);
       await post.save();
       res.send(post);
     } catch (e) {
       console.log(e);
-      res.status(400).json({ message: 'Post error'})
+      res.status(400).json({ message: 'Post error' })
     }
   }
 
   async deletePost(req, res) {
     try {
-      const { id } = req.body;
-      const post = await Post.findByIdAndDelete(id);
-      res.send(post);
+      const { _id } = req.body;
+      const userPost = await Post.findOne({_id})
+      if (userPost.user !== req.session.user) {
+        return res.status(400).json({ message: 'It isn\'t your post!'})
+      }
+      const post = await Post.findByIdAndDelete(_id);
+      res.status(200).send(post);
     } catch (e) {
       console.log(e)
-      res.status(400).json({ message: 'Delete error'})
+      res.status(400).json({ message: 'Delete error' })
     }
   }
 
@@ -59,7 +52,7 @@ class postController {
         limit: limit
       };
     }
-  
+
     if (startIndex > 0) {
       results.previous = {
         page: page - 1,
@@ -67,10 +60,10 @@ class postController {
       };
     }
     try {
-      results.current = await Post.find().sort({date: -1}).limit(limit).skip(startIndex).exec();
+      results.current = await Post.find().sort({ date: -1 }).limit(limit).skip(startIndex).exec();
       res.send(results);
     } catch (e) {
-      res.status(400).json({ message: 'Pagination error'})
+      res.status(400).json({ message: 'Pagination error' })
     }
   }
 }
