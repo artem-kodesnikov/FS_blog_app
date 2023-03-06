@@ -29,19 +29,22 @@ const initialState: Posts = {
 export const createNewPost = createAsyncThunk(
   'post/createNewPost',
   async function (data: Post, { rejectWithValue }) {
-    const { title, content, user, url } = data;
+    const { title, content, user, url, image } = data;
 
     const request = {
       method: 'post',
       url: BASE_URL.concat('/posts/createPost'),
-      data: { title, content, user, url },
+      data: { title, content, user, url, image },
     };
-    const response = await axios(request);
-    console.log(response.data);
-    if (response.status !== 200) {
-      rejectWithValue('Creating post error');
+    try {
+      const response = await axios(request);
+      if (response.status !== 200) {
+        rejectWithValue('Creating post error');
+      }
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
     }
-    return response.data;
   }
 );
 
