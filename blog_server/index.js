@@ -6,9 +6,10 @@ const userRoute = require('./routers/userRouter');
 const postsRoute = require('./routers/postRouter');
 const session = require('express-session');
 
+const BASE_URL = 'https://fs-blog-server.onrender.com'
 const PORT = process.env.PORT || 5000
 const corsOptions ={
-  origin:'http://localhost:3000', 
+  origin: BASE_URL, 
   credentials:true,
   optionSuccessStatus:200
 }
