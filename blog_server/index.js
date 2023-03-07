@@ -6,11 +6,11 @@ const userRoute = require('./routers/userRouter');
 const postsRoute = require('./routers/postRouter');
 const session = require('express-session');
 
-const BASE_URL = 'https://artem-kodesnikov.github.io/FS_blog_app/'
+const BASE_URL = 'https://artem-kodesnikov.github.io';
 
 const PORT = process.env.PORT || 5000
 const corsOptions ={
-  origin: BASE_URL, 
+  origin: BASE_URL,
   credentials:true,
   optionSuccessStatus:200
 }
