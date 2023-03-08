@@ -7,6 +7,7 @@ const postsRoute = require('./routers/postRouter');
 const session = require('express-session');
 
 const BASE_URL = 'https://artem-kodesnikov.github.io';
+// const BASE_URL = 'http://localhost:3000';
 
 const PORT = process.env.PORT || 5000
 const corsOptions ={

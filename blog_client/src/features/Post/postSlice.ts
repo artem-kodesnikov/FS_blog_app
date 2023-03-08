@@ -43,11 +43,11 @@ export const createNewPost = createAsyncThunk(
 
 export const deletePostById = createAsyncThunk(
   'post/deletePost',
-  async function (_id: string | undefined, { rejectWithValue }) {
+  async function (dataForDeleting: {_id: string | undefined, userDisplayname: string}, { rejectWithValue }) {
     const request = {
       method: 'delete',
       url: BASE_URL.concat('/posts/deletePost'),
-      data: { _id },
+      data: { dataForDeleting },
     };
     try {
       const response = await axios(request);
@@ -57,7 +57,7 @@ export const deletePostById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data.message);
     }
-    return _id;
+    return dataForDeleting._id;
   }
 );
 

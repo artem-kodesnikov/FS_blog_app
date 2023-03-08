@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { deletePostById } from "../../features/Post/postSlice";
 import { Post } from "../../types/post";
 import style from './postItem.module.scss';
@@ -7,11 +7,13 @@ import style from './postItem.module.scss';
 export const PostItem: FC<Post> = ({ _id, title, content, url, date, user }) => {
   const postDate = new Date(date).toLocaleDateString();
   const dispatch = useAppDispatch();
+  const userDisplayname = useAppSelector(state => state.userInfo.user.displayname);
+  const dataForDeleting = {_id, userDisplayname};
   return (
     <div className={style.container}>
       <div className={style.image_wrapper}>
         <div className={style.hover_image}>
-          <img onClick={() => dispatch(deletePostById(_id))} className={style.delete} src="./icon/delete.png" alt="delete" />
+          <img onClick={() => dispatch(deletePostById(dataForDeleting))} className={style.delete} src="./icon/delete.png" alt="delete" />
         </div>
         {url
           ? <img className={style.image} src={url} alt="image" />

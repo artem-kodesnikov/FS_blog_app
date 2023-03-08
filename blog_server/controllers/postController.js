@@ -25,10 +25,11 @@ class postController {
 
   async deletePost(req, res) {
     try {
-      const { _id } = req.body;
+      const { dataForDeleting } = req.body;
+      const { _id, userDisplayname} = dataForDeleting;
       const userPost = await Post.findOne({_id})
-      if (userPost.user !== req.session.user) {
-        return res.status(400).json({ message: 'It isn\'t your post!'})
+      if (userPost.user !== userDisplayname) {
+        return res.status(400).json({message: 'It isn\'t your post'})
       }
       const post = await Post.findByIdAndDelete(_id);
       res.status(200).send(post);
