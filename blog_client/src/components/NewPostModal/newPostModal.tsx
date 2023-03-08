@@ -12,6 +12,7 @@ export const NewPostModal = () => {
   const {
     register,
     reset,
+    setFocus,
     formState,
     formState: {
       errors,
@@ -24,12 +25,17 @@ export const NewPostModal = () => {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector(state => state.userInfo.user);
   const isLoading = useAppSelector(state => state.post.isLoading);
+  const isAddingPost = useAppSelector(state => state.post.isAdding);
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
       reset({ title: '', content: '', url: '' });
     }
   }, [formState, reset, isSubmitSuccessful]);
+
+  useEffect(() => {
+    setFocus('title');
+  }, [isAddingPost]);
 
   const onSubmit = async (data: Post) => {
     try {
